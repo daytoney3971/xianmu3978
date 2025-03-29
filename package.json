@@ -12,7 +12,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^7.0.1",
+    "@mui/icons-material": "^5.14.20",
     "@mui/material": "^5.14.20",
     "framer-motion": "^12.6.2",
     "i18next": "^24.2.3",
@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
-    "@types/react": "^19.0.10",
+    "@types/react": "^18.0.0",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.21.0",
