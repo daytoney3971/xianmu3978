@@ -92,17 +92,15 @@ const ProductForm: React.FC = () => {
         qrCode: formData.qrCode
       };
       
-      // 使用 encodeURIComponent 来确保 base64 字符串被正确编码
-      const encodedData = encodeURIComponent(btoa(JSON.stringify(submitData)));
+      // 使用 encodeURIComponent 直接编码 JSON 字符串
+      const encodedData = encodeURIComponent(JSON.stringify(submitData));
       const url = `/product/${encodedData}`;
       
       // 保存到 localStorage
       localStorage.setItem(`product_${encodedData}`, JSON.stringify(submitData));
       
-      // 使用 setTimeout 来确保状态更新和导航的正确顺序
-      setTimeout(() => {
-        navigate(url);
-      }, 0);
+      // 导航到新页面
+      navigate(url);
       
     } catch (error) {
       console.error('提交失败:', error);

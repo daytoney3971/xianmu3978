@@ -29,8 +29,8 @@ const ProductDisplayWrapper: React.FC = () => {
   };
   
   try {
-    // 使用 decodeURIComponent 来解码 URL 参数
-    const decodedData = JSON.parse(atob(decodeURIComponent(id || '')));
+    // 直接解码 URL 参数
+    const decodedData = JSON.parse(decodeURIComponent(id || ''));
     return <ProductDisplay {...decodedData} />;
   } catch (error) {
     console.error('数据解析失败:', error);
