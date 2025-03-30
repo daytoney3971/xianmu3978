@@ -31,13 +31,13 @@ const currencySymbols: { [key: string]: string } = {
 };
 
 const ProductDisplay: React.FC<ProductDisplayProps> = ({
-  images,
-  name,
-  phone,
-  address,
-  description,
-  price,
-  qrCode,
+  images = [],
+  name = '',
+  phone = '',
+  address = '',
+  description = '',
+  price = '',
+  qrCode = '',
   currency = 'CNY',
 }) => {
   const { t } = useTranslation();

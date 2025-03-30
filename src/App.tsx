@@ -17,8 +17,22 @@ interface ProductData {
 
 const ProductDisplayWrapper: React.FC = () => {
   const { id } = useParams();
-  // 在实际应用中，这里应该从后端获取数据
-  const productData = JSON.parse(localStorage.getItem(`product_${id}`) || '{}') as ProductData;
+  // 添加默认值，确保即使没有数据也有一个有效的结构
+  const defaultProductData: ProductData = {
+    images: [],
+    name: '',
+    phone: '',
+    address: '',
+    description: '',
+    price: '',
+    qrCode: ''
+  };
+  
+  const productData = {
+    ...defaultProductData,
+    ...JSON.parse(localStorage.getItem(`product_${id}`) || '{}')
+  };
+
   return <ProductDisplay {...productData} />;
 };
 
