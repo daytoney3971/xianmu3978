@@ -77,28 +77,37 @@ const ProductForm: React.FC = () => {
     i18n.changeLanguage(event.target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = {
-      images: formData.images,
-      name: formData.name,
-      phone: formData.phone,
-      address: formData.address,
-      description: formData.description,
-      price: formData.price,
-      currency: formData.currency,
-      qrCode: formData.qrCode
-    };
-    
-    // 将数据编码为 base64
-    const encodedData = btoa(JSON.stringify(formData));
-    const url = `/product/${encodedData}`;
-    
-    // 保存到 localStorage（可选）
-    localStorage.setItem(`product_${encodedData}`, JSON.stringify(formData));
-    
-    // 导航到新页面
-    navigate(url);
+  
+    try {
+      const submitData = {
+        images: formData.images,
+        name: formData.name,
+        phone: formData.phone,
+        address: formData.address,
+        description: formData.description,
+        price: formData.price,
+        currency: formData.currency,
+        qrCode: formData.qrCode
+      };
+      
+      // 使用 encodeURIComponent 来确保 base64 字符串被正确编码
+      const encodedData = encodeURIComponent(btoa(JSON.stringify(submitData)));
+      const url = `/product/${encodedData}`;
+      
+      // 保存到 localStorage
+      localStorage.setItem(`product_${encodedData}`, JSON.stringify(submitData));
+      
+      // 使用 setTimeout 来确保状态更新和导航的正确顺序
+      setTimeout(() => {
+        navigate(url);
+      }, 0);
+      
+    } catch (error) {
+      console.error('提交失败:', error);
+      alert('提交失败，请重试');
+    }
   };
 
   const copyToClipboard = async () => {

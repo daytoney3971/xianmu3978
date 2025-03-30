@@ -13,7 +13,8 @@ export default defineConfig({
         manualChunks: undefined,
         format: 'es'
       }
-    }
+    },
+    sourcemap: true
   },
   server: {
     headers: {
