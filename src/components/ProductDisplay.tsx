@@ -42,6 +42,14 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  // 处理图片数据
+  const processedImages = images.map(img => 
+    img.startsWith('data:') ? img : `data:image/jpeg;base64,${img}`
+  );
+  
+  const processedQrCode = qrCode.startsWith('data:') ? 
+    qrCode : `data:image/jpeg;base64,${qrCode}`;
+
   const formatPhoneNumber = (phoneNumber: string) => {
     if (phoneNumber.length >= 7) {
       const prefix = phoneNumber.slice(0, 3);
@@ -88,7 +96,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({
                   borderRadius: '16px',
                   boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
                 }}>
-                {images.map((image, index) => (
+                {processedImages.map((image, index) => (
                   <img
                     key={index}
                     src={image}
@@ -223,7 +231,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({
                     transition={{ type: "spring", stiffness: 300, damping: 10 }}
                   >
                     <img
-                      src={qrCode}
+                      src={processedQrCode}
                       alt="Payment QR Code"
                       style={{
                         maxWidth: '100%',
