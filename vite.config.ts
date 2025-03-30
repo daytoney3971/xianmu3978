@@ -14,7 +14,14 @@ export default defineConfig({
         format: 'es'
       }
     },
-    sourcemap: true
+    sourcemap: true,
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: false,
+        drop_debugger: true
+      }
+    }
   },
   server: {
     headers: {

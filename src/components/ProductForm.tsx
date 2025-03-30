@@ -92,19 +92,28 @@ const ProductForm: React.FC = () => {
         qrCode: formData.qrCode
       };
       
-      // 使用 encodeURIComponent 直接编码 JSON 字符串
-      const encodedData = encodeURIComponent(JSON.stringify(submitData));
-      const url = `/product/${encodedData}`;
+      // 压缩图片数据
+      const compressedData = {
+        ...submitData,
+        images: submitData.images.map(img => img.split(',')[1]),
+        qrCode: submitData.qrCode.split(',')[1]
+      };
+      
+      // 生成编码数据
+      const encodedData = encodeURIComponent(JSON.stringify(compressedData));
+      
+      // 生成完整的URL（使用window.location.origin获取当前域名）
+      const fullUrl = `${window.location.origin}/product/${encodedData}`;
       
       // 保存到 localStorage
       localStorage.setItem(`product_${encodedData}`, JSON.stringify(submitData));
       
-      // 导航到新页面
-      navigate(url);
+      // 更新生成的链接状态
+      setGeneratedLink(fullUrl);
       
     } catch (error) {
       console.error('提交失败:', error);
-      alert('提交失败，请重试');
+      alert('提交失败，请重试。可能是数据太大，请尝试减少图片大小或数量。');
     }
   };
 
