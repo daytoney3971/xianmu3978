@@ -17,7 +17,7 @@ interface ProductData {
 
 const ProductDisplayWrapper: React.FC = () => {
   const { id } = useParams();
-  // 添加默认值，确保即使没有数据也有一个有效的结构
+  
   const defaultProductData: ProductData = {
     images: [],
     name: '',
@@ -28,12 +28,18 @@ const ProductDisplayWrapper: React.FC = () => {
     qrCode: ''
   };
   
-  const productData = {
-    ...defaultProductData,
-    ...JSON.parse(localStorage.getItem(`product_${id}`) || '{}')
-  };
-
-  return <ProductDisplay {...productData} />;
+  try {
+    // 尝试从 URL 参数解码数据
+    const decodedData = JSON.parse(atob(id || ''));
+    return <ProductDisplay {...decodedData} />;
+  } catch (error) {
+    // 如果解码失败，尝试从 localStorage 获取
+    const productData = {
+      ...defaultProductData,
+      ...JSON.parse(localStorage.getItem(`product_${id}`) || '{}')
+    };
+    return <ProductDisplay {...productData} />;
+  }
 };
 
 const App: React.FC = () => {

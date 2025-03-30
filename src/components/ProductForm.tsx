@@ -12,6 +12,7 @@ import {
   FormControl,
   InputLabel,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 interface ProductFormData {
   images: string[];
@@ -37,6 +38,7 @@ const ProductForm: React.FC = () => {
     qrCode: ''
   });
   const [generatedLink, setGeneratedLink] = useState('');
+  const navigate = useNavigate();
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>, field: 'images' | 'qrCode') => {
     const files = event.target.files;
@@ -75,14 +77,28 @@ const ProductForm: React.FC = () => {
     i18n.changeLanguage(event.target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const uniqueId = crypto.randomUUID();
-    const link = `${window.location.origin}/product/${uniqueId}`;
-    setGeneratedLink(link);
+    const formData = {
+      images: formData.images,
+      name: formData.name,
+      phone: formData.phone,
+      address: formData.address,
+      description: formData.description,
+      price: formData.price,
+      currency: formData.currency,
+      qrCode: formData.qrCode
+    };
     
-    // 保存数据到本地存储
-    localStorage.setItem(`product_${uniqueId}`, JSON.stringify(formData));
+    // 将数据编码为 base64
+    const encodedData = btoa(JSON.stringify(formData));
+    const url = `/product/${encodedData}`;
+    
+    // 保存到 localStorage（可选）
+    localStorage.setItem(`product_${encodedData}`, JSON.stringify(formData));
+    
+    // 导航到新页面
+    navigate(url);
   };
 
   const copyToClipboard = async () => {
