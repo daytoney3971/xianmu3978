@@ -271,27 +271,45 @@ const ProductForm: React.FC = () => {
             )}
           </Box>
 
-          <Button type="submit" variant="contained" color="primary" size="large">
-            {t('submit')}
-          </Button>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Button type="submit" variant="contained" color="primary" size="large">
+              {t('submit')}
+            </Button>
 
-          {generatedLink && (
-            <Box sx={{ mt: 2 }}>
-              <Typography variant="subtitle1">{t('generatedLink')}:</Typography>
-              <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                <TextField
+            {generatedLink && (
+              <Paper sx={{ p: 2, mt: 2, bgcolor: '#f5f5f5' }}>
+                <Typography variant="subtitle1" gutterBottom>
+                  {t('generatedLink')}:
+                </Typography>
+                <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+                  <TextField
+                    fullWidth
+                    value={generatedLink}
+                    InputProps={{
+                      readOnly: true,
+                      sx: { bgcolor: 'white' }
+                    }}
+                  />
+                  <Button 
+                    variant="contained" 
+                    onClick={copyToClipboard}
+                    sx={{ whiteSpace: 'nowrap' }}
+                  >
+                    {t('copy')}
+                  </Button>
+                </Box>
+                <Button
+                  variant="outlined"
+                  color="primary"
                   fullWidth
-                  value={generatedLink}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-                <Button variant="outlined" onClick={copyToClipboard}>
-                  {t('copy')}
+                  sx={{ mt: 2 }}
+                  onClick={() => window.open(generatedLink, '_blank')}
+                >
+                  {t('preview')}
                 </Button>
-              </Box>
-            </Box>
-          )}
+              </Paper>
+            )}
+          </Box>
         </Box>
       </Paper>
     </Container>
