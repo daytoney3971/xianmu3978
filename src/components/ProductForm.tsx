@@ -119,11 +119,30 @@ const ProductForm: React.FC = () => {
 
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(generatedLink);
+      // 创建一个临时文本区域
+      const textArea = document.createElement('textarea');
+      textArea.value = generatedLink;
+      document.body.appendChild(textArea);
+      
+      // 选择文本
+      textArea.select();
+      
+      try {
+        // 尝试使用新 API
+        await navigator.clipboard.writeText(generatedLink);
+      } catch {
+        // 如果新 API 失败，使用传统方法
+        document.execCommand('copy');
+      }
+      
+      // 移除临时元素
+      document.body.removeChild(textArea);
+      
       alert('链接已成功复制到剪贴板！');
     } catch (err) {
       console.error('复制失败:', err);
-      alert('复制失败，请手动复制链接。');
+      // 如果复制失败，显示链接让用户手动复制
+      alert('自动复制失败，请手动选择并复制链接。');
     }
   };
 
